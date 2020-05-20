@@ -1,0 +1,122 @@
+
+.ngrid-info-scroll {
+	width: 100px;
+	height: 100px;
+	overflow-y: scroll;
+	position: absolute;
+	left: -500px;
+	top: 0;
+
+	&-child {
+		height: 200px;
+		width: 100%;
+	}
+	
+	&-iframe {
+		position: absolute;
+		background-color: silver;
+		border: 0;
+		left: 0;
+		top: 0;
+		width: 47%;
+		height: 47%;
+	}
+}
+
+// ------------------------------
+
+.ngrid-data {
+	border-color: $ngrid-border-color;
+    border-width: 1px 0 0 0;
+	border-style: solid;
+    width: 100%;
+    height: 100%;
+	overflow: hidden;
+	flex: 1;
+
+	.ngrid-content {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		overflow-y: auto;
+	}
+
+	.ngrid-iframe {
+		position: absolute;
+		border: 0;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		z-index: -1;
+	}
+
+	.ngrid-substrate {
+		width: 100%;
+		height: 0;
+	}
+
+	.container {
+		position: absolute;
+		width: 100%;
+		top: 0;
+	}
+	
+	.wrap {
+		position: absolute;
+        width: fit-content;
+
+        tr:first-child td {
+            border-top-width: 0;	
+        }
+	}
+
+	table {
+		color: $ngrid-text-color;
+
+		td {
+			padding: 0 6px;
+		}
+		
+		/*tr:hover {
+			td {
+				background-color: $ngrid-background-color-over;
+			}
+		}*/
+
+		tr.row-selected {
+			td {
+				background-color: $ngrid-selected-background-color;
+			}
+		}
+	}
+	
+
+	.row-empty {
+		color: gray;
+		border: 0;
+	}
+
+
+	.row-left {
+		text-align: left;
+	}
+
+	.row-center {
+		text-align: center;
+	}
+
+	.row-right {
+		text-align: right;
+	}
+}
+
+// ------------------------------
+
+// класс для иконок в теле таблицы
+.ngrid .ngrid-content td.icon-cell {
+	padding: 0;
+	font-size: 0;
+	text-align: center;
+}

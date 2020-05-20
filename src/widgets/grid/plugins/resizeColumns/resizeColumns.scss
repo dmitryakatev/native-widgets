@@ -1,0 +1,8 @@
+
+.ngrid-cursor-resize {
+	cursor: e-resize !important;
+
+	.ngrid .ngrid-head td * {
+		cursor: e-resize !important;
+	}
+}

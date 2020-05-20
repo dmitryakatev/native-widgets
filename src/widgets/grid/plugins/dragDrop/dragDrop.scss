@@ -1,0 +1,28 @@
+
+.ngrid-drag-drop {
+	user-select: none;
+
+	&-active-row {
+		border-bottom-width: 1px;
+		border-bottom-color: #432F2A;
+		border-bottom-style: dotted;
+	}
+
+	&-tooltip {
+		position: absolute;
+		display: inline-block;
+		padding: 5px;
+		border: 1px solid silver;
+		border-radius: 5px;
+		background: white;
+		
+		&-icon {
+			vertical-align: middle;
+		}
+	
+		&-text {
+			margin-left: 5px;
+			font-size: 13px;
+		}
+	}
+}

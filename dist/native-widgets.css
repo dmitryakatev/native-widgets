@@ -1,0 +1,444 @@
+.ngrid {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  height: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border: 1px solid;
+  border-color: #D0D0D0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.ngrid table {
+  border-spacing: 0px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 0;
+}
+.ngrid td {
+  overflow: hidden;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  font-size: 13px;
+  border-style: solid;
+  border-color: #D0D0D0;
+  border-width: 1px;
+  vertical-align: middle;
+  height: 28px;
+}
+.ngrid td:first-child {
+  border-left-width: 0;
+}
+.ngrid tr:first-child td {
+  height: 28px;
+}
+.ngrid.head-hidden .ngrid-head {
+  display: none;
+}
+.ngrid.head-hidden .ngrid-data {
+  border-top-width: 0;
+}
+
+.ngrid .checkcolumn {
+  cursor: pointer;
+  font-size: 0;
+}
+.ngrid .checkcolumn .check {
+  width: 13px;
+  height: 13px;
+}
+
+.ngrid-head {
+  position: relative;
+  overflow: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-color: #F0F5F7;
+  border-color: #D0D0D0;
+  border-width: 0 0 0 0;
+  border-style: solid;
+}
+.ngrid-head table {
+  position: relative;
+}
+.ngrid-head table tr:first-child td {
+  border-top-width: 0;
+}
+.ngrid-head table td {
+  color: #6d737b;
+  border-bottom-width: 0;
+  position: relative;
+  text-align: center;
+  padding: 0 6px;
+}
+.ngrid-head table td .text {
+  overflow: hidden;
+}
+.ngrid-head table td .sort {
+  position: relative;
+  vertical-align: middle;
+  width: 9px;
+  height: 10px;
+  left: 4px;
+}
+.ngrid-head table td .asc {
+  -webkit-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+.ngrid-head .settings-columns {
+  position: absolute;
+  cursor: pointer;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+.ngrid-head .settings-columns:hover svg {
+  fill: #1486B3;
+}
+.ngrid-head .settings-columns:before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  vertical-align: middle;
+  height: 100%;
+}
+.ngrid-head .settings-columns svg {
+  margin-right: 6px;
+  vertical-align: middle;
+  width: 4px;
+}
+.ngrid-head-resize-line {
+  position: absolute;
+  background-color: #D0D0D0;
+  height: 100%;
+  width: 1px;
+  top: 0;
+  left: 0;
+}
+
+.ngrid .icon-header {
+  font-size: 0;
+}
+.ngrid .icon-header .svgIcon {
+  vertical-align: middle;
+}
+
+.ngrid-info-scroll {
+  width: 100px;
+  height: 100px;
+  overflow-y: scroll;
+  position: absolute;
+  left: -500px;
+  top: 0;
+}
+.ngrid-info-scroll-child {
+  height: 200px;
+  width: 100%;
+}
+.ngrid-info-scroll-iframe {
+  position: absolute;
+  background-color: silver;
+  border: 0;
+  left: 0;
+  top: 0;
+  width: 47%;
+  height: 47%;
+}
+
+.ngrid-data {
+  border-color: #D0D0D0;
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.ngrid-data .ngrid-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+.ngrid-data .ngrid-iframe {
+  position: absolute;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: -1;
+}
+.ngrid-data .ngrid-substrate {
+  width: 100%;
+  height: 0;
+}
+.ngrid-data .container {
+  position: absolute;
+  width: 100%;
+  top: 0;
+}
+.ngrid-data .wrap {
+  position: absolute;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.ngrid-data .wrap tr:first-child td {
+  border-top-width: 0;
+}
+.ngrid-data table {
+  color: #071013;
+  /*tr:hover {
+  	td {
+  		background-color: $ngrid-background-color-over;
+  	}
+  }*/
+}
+.ngrid-data table td {
+  padding: 0 6px;
+}
+.ngrid-data table tr.row-selected td {
+  background-color: #E4E8EF;
+}
+.ngrid-data .row-empty {
+  color: gray;
+  border: 0;
+}
+.ngrid-data .row-left {
+  text-align: left;
+}
+.ngrid-data .row-center {
+  text-align: center;
+}
+.ngrid-data .row-right {
+  text-align: right;
+}
+
+.ngrid .ngrid-content td.icon-cell {
+  padding: 0;
+  font-size: 0;
+  text-align: center;
+}
+
+.ngrid .treecolumn {
+  text-align: left;
+  padding: 0;
+}
+.ngrid .treecolumn .image {
+  cursor: pointer;
+  vertical-align: middle;
+}
+.ngrid .treecolumn .line {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 14px;
+  height: 100%;
+}
+.ngrid .treecolumn .line::before {
+  content: "";
+  display: inline-block;
+  background-color: #D0D0D0;
+  vertical-align: middle;
+  margin-left: 8px;
+  height: 100%;
+  width: 1px;
+}
+.ngrid .treecolumn .line::after {
+  content: "";
+  display: inline-block;
+  background-color: #D0D0D0;
+  vertical-align: middle;
+  height: 1px;
+  width: 5px;
+}
+.ngrid .treecolumn .line-angle::before {
+  height: 50%;
+}
+.ngrid .treecolumn .line-angle::after {
+  vertical-align: bottom;
+}
+.ngrid .treecolumn .circle {
+  margin-right: 3px;
+  width: 9px;
+  height: 9px;
+}
+.ngrid .treecolumn .check {
+  margin-right: 3px;
+}
+.ngrid .treecolumn .icon {
+  margin-right: 3px;
+}
+.ngrid .treecolumn .text {
+  vertical-align: middle;
+  margin-left: 3px;
+}
+
+.ngrid .treecolumn {
+  text-align: left;
+  padding: 0;
+}
+.ngrid .treecolumn .image {
+  cursor: pointer;
+  vertical-align: middle;
+}
+.ngrid .treecolumn .line {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 14px;
+  height: 100%;
+}
+.ngrid .treecolumn .line::before {
+  content: "";
+  display: inline-block;
+  background-color: #D0D0D0;
+  vertical-align: middle;
+  margin-left: 8px;
+  height: 100%;
+  width: 1px;
+}
+.ngrid .treecolumn .line::after {
+  content: "";
+  display: inline-block;
+  background-color: #D0D0D0;
+  vertical-align: middle;
+  height: 1px;
+  width: 5px;
+}
+.ngrid .treecolumn .line-angle::before {
+  height: 50%;
+}
+.ngrid .treecolumn .line-angle::after {
+  vertical-align: bottom;
+}
+.ngrid .treecolumn .circle {
+  margin-right: 3px;
+  width: 9px;
+  height: 9px;
+}
+.ngrid .treecolumn .check {
+  margin-right: 3px;
+}
+.ngrid .treecolumn .icon {
+  margin-right: 3px;
+}
+.ngrid .treecolumn .text {
+  vertical-align: middle;
+  margin-left: 3px;
+}
+
+.ngrid-drag-drop {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.ngrid-drag-drop-active-row {
+  border-bottom-width: 1px;
+  border-bottom-color: #432F2A;
+  border-bottom-style: dotted;
+}
+.ngrid-drag-drop-tooltip {
+  position: absolute;
+  display: inline-block;
+  padding: 5px;
+  border: 1px solid silver;
+  border-radius: 5px;
+  background: white;
+}
+.ngrid-drag-drop-tooltip-icon {
+  vertical-align: middle;
+}
+.ngrid-drag-drop-tooltip-text {
+  margin-left: 5px;
+  font-size: 13px;
+}
+
+.ngrid-cursor-resize {
+  cursor: e-resize !important;
+}
+.ngrid-cursor-resize .ngrid .ngrid-head td * {
+  cursor: e-resize !important;
+}
+
+.ngrid-head .setting-columns {
+  position: absolute;
+  cursor: pointer;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+.ngrid-head .setting-columns:before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  vertical-align: middle;
+  height: 100%;
+}
+.ngrid-head .setting-columns-icon {
+  margin-right: 6px;
+  vertical-align: middle;
+  width: 4px;
+}
+
+.ngrid-setting-columns {
+  position: absolute;
+  background-color: white;
+  width: 300px;
+}
+.ngrid-setting-columns .ngrid {
+  border-right-width: 0;
+  border-bottom-width: 0;
+}
+.ngrid .ngrid-setting-columns-checkbox {
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0;
+  cursor: pointer;
+}
+
+.ngrid .ngridpinrow.ngridtotal tr:first-child td {
+  border-top-width: 1px;
+  font-weight: bold;
+}
+
+.ngrid .ngridpinrow.fixed {
+  position: fixed;
+}
+.ngrid .ngridpinrow.sticky {
+  position: sticky;
+  position: -webkit-sticky;
+  position: -ms-sticky;
+  top: 0;
+}
+.ngrid .npinrow {
+  position: absolute;
+  width: 100%;
+  height: 29px;
+  top: 0;
+}
+.ngrid .npinrow table {
+  background-color: white;
+}
+.ngrid .npinrow tr:first-child td {
+  border-top-width: 0;
+}
+
+/*# sourceMappingURL=native-widgets.css.map*/

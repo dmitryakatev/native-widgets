@@ -1,0 +1,30 @@
+
+.ngrid {
+	.ngridpinrow {
+		&.fixed {
+			position: fixed;
+		}
+
+		&.sticky {
+			position: sticky;
+			position: -webkit-sticky;
+			position: -ms-sticky;
+			top: 0;
+		}
+	}
+	
+	.npinrow {
+		position: absolute;
+		width: 100%;
+		height: 29px;
+		top: 0;
+
+		table {
+			background-color: white;
+		}
+	
+		tr:first-child td {
+			border-top-width: 0;
+		}
+	}
+}

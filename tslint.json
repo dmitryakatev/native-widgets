@@ -1,0 +1,14 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "no-console": [false],
+        "no-bitwise": false,
+        "object-literal-sort-keys": false,
+        "trailing-comma": [true, { "multiline": "never", "singleline": "never" }],
+        "ordered-imports": false,
+        "no-inferrable-types": false,
+        "prefer-const": false,
+        "no-var-requires": false,
+        "array-type": [true, "array"]
+    }
+}

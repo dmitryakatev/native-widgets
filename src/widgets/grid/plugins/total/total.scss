@@ -1,0 +1,9 @@
+
+.ngrid {
+	.ngridpinrow.ngridtotal {
+		tr:first-child td {
+			border-top-width: 1px;
+			font-weight: bold;
+		}
+	}
+}

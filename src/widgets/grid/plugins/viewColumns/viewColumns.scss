@@ -1,0 +1,42 @@
+
+.ngrid-head {
+	.setting-columns {
+		&:before {
+			content: '';
+			display: inline-block;
+			width: 6px;
+			vertical-align: middle;
+			height: 100%;
+		}
+
+		&-icon {
+			margin-right: 6px;
+			vertical-align: middle;
+			width: 4px;
+		}
+
+		position: absolute;
+		cursor: pointer;
+		height: 100%;
+		top: 0;
+		right: 0;
+	}
+}
+
+.ngrid-setting-columns {
+	position: absolute;
+	background-color: white;
+	width: 300px;
+
+	.ngrid {
+		border-right-width: 0;
+		border-bottom-width: 0;
+	}
+
+	.ngrid &-checkbox {
+		vertical-align: middle;
+		text-align: center;
+		font-size: 0;
+		cursor: pointer;
+	}
+}

@@ -1,0 +1,97 @@
+
+.ngrid-head {
+	position: relative;
+	overflow: hidden;
+	user-select: none;
+	
+	background-color: $ngrid-header-background-color;
+	border-color: $ngrid-border-color;
+	border-width: 0 0 0 0;
+	border-style: solid;
+	
+	table {
+		position: relative;
+
+		tr:first-child td {
+			border-top-width: 0;
+		}
+		
+		td {
+			color: $ngrid-header-text-color;
+			border-bottom-width: 0;
+			position: relative;
+			text-align: center;
+			padding: 0 6px;
+			
+			.text {
+				overflow: hidden;
+			}
+
+			// sort classes
+			.sort {
+				position: relative;
+				vertical-align: middle;
+				width: 9px;
+				height: 10px;
+				left: 4px;
+			}
+
+			.asc {
+				transform: rotate(180deg);
+			}
+
+			.desc {
+				// ---
+			}
+		}
+	}
+
+	.settings-columns {
+		position: absolute;
+		cursor: pointer;
+		height: 100%;
+		top: 0;
+		right: 0;
+
+		&:hover {
+			svg {
+				fill: #1486B3;
+			}
+		}
+
+		&:before {
+			content: '';
+			display: inline-block;
+			width: 6px;
+			vertical-align: middle;
+			height: 100%;
+		}
+
+		svg {
+			margin-right: 6px;
+			vertical-align: middle;
+			width: 4px;
+		}
+	}
+
+	&-resize-line {
+		position: absolute;
+		background-color: $ngrid-border-color;
+		height: 100%;
+		width: 1px;
+		top: 0;
+		left: 0;
+	}
+}
+
+// ------------------------------
+
+// класс для иконок в шапке
+.ngrid .icon-header {
+	font-size: 0;
+
+	.svgIcon {
+		vertical-align: middle;
+	}
+}
+

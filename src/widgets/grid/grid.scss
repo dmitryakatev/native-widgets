@@ -1,0 +1,67 @@
+
+.ngrid {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	// user-select: none;
+	width: 100%;
+    height: 100%;
+	flex: 1;
+	border: 1px solid;
+	border-color: $ngrid-border-color;
+	box-sizing: border-box;
+	
+	table {
+		border-spacing: 0px;
+		table-layout: fixed;
+		border-collapse: collapse;
+		width: 0;
+	}
+	
+	td {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		font-size: 13px;
+		border-style: solid;
+		border-color: $ngrid-border-color;
+		border-width: 1px;
+        vertical-align: middle;
+		height: 28px;
+		
+		
+		&:first-child {
+			border-left-width: 0;
+		}
+	}
+
+	tr:first-child td {
+		height: 28px;
+	}
+
+	// скрытие шапки
+	&.head-hidden {
+		.ngrid-head {
+			display: none;
+		}
+
+		.ngrid-data {
+			border-top-width: 0;
+		}
+	}
+}
+
+// ------------------------------
+
+// check column
+.ngrid {
+	.checkcolumn {
+		cursor: pointer;
+		font-size: 0;
+
+		.check {
+			width: 13px;
+			height: 13px;
+		}
+	}
+}

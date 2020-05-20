@@ -1,0 +1,32 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.el-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: 50%;
+    padding: 10px;
+}
+
+.el-pin-row {
+    width: 80px;
+    margin-right: 10px;
+}
+
+.el-filter {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.el-content {
+    flex: 1;
+}

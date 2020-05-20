@@ -1,0 +1,69 @@
+
+
+.ngrid {
+    .treecolumn {
+        text-align: left;
+        padding: 0;
+
+        .image {
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
+        .line {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            width: 14px;
+            height: 100%;
+
+            &::before {
+                content: '';
+                display: inline-block;
+                background-color: $ngrid-border-color;
+                vertical-align: middle;
+                margin-left: 8px;
+                height: 100%;
+                width: 1px;
+            }
+
+            &::after {
+                content: '';
+                display: inline-block;
+                background-color: $ngrid-border-color;
+                vertical-align: middle;
+                height: 1px;
+                width: 5px;
+            }
+        }
+
+        .line-angle {
+            &::before {
+                height: 50%;
+            }
+
+            &::after {
+                vertical-align: bottom;
+            }
+        }
+
+        .circle {
+            margin-right: 3px;
+            width: 9px;
+            height: 9px;
+        }
+
+        .check {
+            margin-right: 3px;
+        }
+
+        .icon {
+            margin-right: 3px;
+        }
+
+        .text {
+            vertical-align: middle;
+            margin-left: 3px;
+        }
+    }
+}
