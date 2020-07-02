@@ -112,5 +112,7 @@ var tree = new nw.Tree({
     }]
 });
 
+tree.getPlugin('pinRow').setMode(2);
+
 var div = document.querySelector('.el-content');
 tree.appendChild(div);

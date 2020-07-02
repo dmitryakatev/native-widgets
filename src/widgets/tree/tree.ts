@@ -7,22 +7,22 @@ import { HeadTree, IHeadTreeProps } from "./headtree/headtree";
 import { ViewTree, IViewTreeProps } from "./viewtree/viewtree";
 
 export interface ITreeProps<T> extends IGridProps<T> {
-    rootVisible?: boolean;
-    syncCheckbox?: boolean;
+    rootVisible?: boolean;  // показывать\скрывать узел верхнего уровня
+    syncCheckbox?: boolean; // вкл\выкл синхронизацию check со всем деревом
 }
 
 export interface INode extends IHashMapAny {
-    leaf?: boolean;
-    icon?: string;
-    expanded?: boolean;
-    children?: INode[];
-    checked?: boolean;
-    checkedUndetermined?: boolean;
-    // auto
-    parentNodeId?: any;
-    nextNodeId?: any;
-    prevNodeId?: any;
-    depth?: number;
+    leaf?: boolean;                 // указывает является запись папкой или узлом
+    icon?: string;                  // иконка
+    expanded?: boolean;             // раскрыть\спрятать дочерние узлы
+    children?: INode[];             // массив дочерних элементов
+    checked?: boolean;              // check
+    checkedUndetermined?: boolean;  // находится ли check в неопределенном состоянии
+    // auto (свойства генерируются автоматически)
+    parentNodeId?: any;             // id родительского узла
+    nextNodeId?: any;               // id следущего узла
+    prevNodeId?: any;               // id предыдущего узла
+    depth?: number;                 // глубина узла
 }
 
 export class Tree<T extends INode = INode, P extends ITreeProps<T> = ITreeProps<T>> extends Grid<T, P> {
@@ -30,7 +30,8 @@ export class Tree<T extends INode = INode, P extends ITreeProps<T> = ITreeProps<
     protected head: HeadTree<T, IHeadTreeProps<T>, Tree<T>>;
     protected view: ViewTree<T, IViewTreeProps<T>, Tree<T>>;
 
-    public setCheck(node: T, checked: boolean, params?: any): void {
+    // устанавливает check в узле
+    public setCheck(node: T, checked: boolean): void {
         if (this.props.syncCheckbox) {
             this.cascadeBefore(node, (child: T) => {
                 if (child.leaf) {
@@ -44,29 +45,19 @@ export class Tree<T extends INode = INode, P extends ITreeProps<T> = ITreeProps<
         }
 
         this.refresh();
-        this.emit("checkchange", this, node, checked, params);
+        this.emit("checkchange", this, node, checked);
     }
 
+    // раскрывает узел
     public expand(node: T): void {
         node.expanded = true;
         this.refresh();
     }
 
+    // закрывает узел
     public collapse(node: T): void {
         node.expanded = false;
         this.refresh();
-    }
-
-    public getChecked(): T[] {
-        let checked: T[] = [];
-
-        this.cascadeBefore([] as any, (node: T) => {
-            if (node.data.checked) {
-                checked.push(node);
-            }
-        });
-
-        return checked;
     }
 
     // сначала вызывается fn узла, а потом его потомков
@@ -139,9 +130,8 @@ export class Tree<T extends INode = INode, P extends ITreeProps<T> = ITreeProps<
     // --------------------------------------------------------
     // приватные методы
 
+    // вызывается перед инициализацией
     protected beforeInit(): void {
-        super.beforeInit();
-
         this.props.rootVisible = this.props.rootVisible !== false;
         this.props.syncCheckbox = !!this.props.syncCheckbox;
 
@@ -186,8 +176,11 @@ export class Tree<T extends INode = INode, P extends ITreeProps<T> = ITreeProps<
 
         this.on("onCellMouseDown", cellMouseDown_Tree);
         this.on("onItemdblClick", itemDblClick_Tree);
+
+        super.beforeInit();
     }
 
+    // находит наименование экшина по тегу
     protected findAction(node: HTMLElement, root: HTMLElement): string {
         while (node && node !== root) {
             let action: string = node.getAttribute("action");
@@ -202,12 +195,14 @@ export class Tree<T extends INode = INode, P extends ITreeProps<T> = ITreeProps<
         return null;
     }
 
+    // создает заголовок дереваа
     protected initHead(): void {
         this.head = new HeadTree<T, IHeadTreeProps<T>, Tree<T>>({
             columns: this.props.columns
         }, this);
     }
 
+    // создает контент дереваа
     protected initView(): void {
         this.view = new ViewTree<T, IViewTreeProps<T>, Tree<T>>({
             data: this.props.data,

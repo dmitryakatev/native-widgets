@@ -24,14 +24,18 @@ export class EmitterEvent {
         return HelperEvent.off(this.events, eventName, fn);
     }
 
-    public emit(eventName: string, ...args: any[]): void {
+    public emit(eventName: string, ...args: any[]): boolean {
         if (this.events.hasOwnProperty(eventName)) {
             const list: EventFn[] = this.events[eventName] as EventFn[];
 
             const ln: number = list.length;
             for (let i: number = 0; i < ln; ++i) {
-                methodCall(list, i, args);
+                if (methodCall(list, i, args) === false) {
+                    return false;
+                }
             }
         }
+
+        return true;
     }
 }

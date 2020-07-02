@@ -119,8 +119,7 @@ export class Component<
             args.push(arguments[i]);
         }
 
-        methodCall(this.$internal.emitter, "emit", args);
-        return true; // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return methodCall(this.$internal.emitter, "emit", args);
     }
 
     // >>> работа с виртуальным DOM

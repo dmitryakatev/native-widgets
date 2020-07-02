@@ -21,6 +21,10 @@ export class SettingsGrid extends Grid<ISettingGrid> {
         this.props.bufferEnable = false;
         this.props.hideHead = true;
 
+        this.props.plugins = [{
+            type: "dragDropGrid"
+        }];
+
         this.props.columns = [{
             width: 29,
             dataIndex: "checkbox",

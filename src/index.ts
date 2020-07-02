@@ -3,10 +3,10 @@ import { Grid } from "./widgets/grid/grid";
 import { Tree, INode } from "./widgets/tree/tree";
 import { IMeta } from "./widgets/grid/viewgrid/viewgrid";
 
-import { DragDropPlugin } from "./widgets/grid/plugins/dragDrop/dragDropPlugin";
+import { DragDropPlugin } from "./widgets/grid/plugins/dragDrop/dragDropPlugin";  // не реализован !
 import { ResizeColumnsPlugin } from "./widgets/grid/plugins/resizeColumns/resizeColumnsPlugin";
 import { TotalPlugin } from "./widgets/grid/plugins/total/totalPlugin";
-import { ViewColumnsPlugin } from "./widgets/grid/plugins/viewColumns/ViewColumnsPlugin";
+import { ViewColumnsPlugin } from "./widgets/grid/plugins/viewColumns/ViewColumnsPlugin"; // не дописан !
 import { TreeFilterPlugin } from "./widgets/tree/plugins/treeFilter/treeFilterPlugin";
 import { PinRowPlugin } from "./widgets/tree/plugins/pinRow/pinRowPlugin";
 

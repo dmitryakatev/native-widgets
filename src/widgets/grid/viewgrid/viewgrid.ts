@@ -510,10 +510,10 @@ export class ViewGrid<
         let range: IRange = this.findDisplayRange();
         let dataList: T[] = this.getRenderList(range);
 
-        // обновим позицию buffer зоны
-        this.updatePositionBuffer(range);
-
+        this.updateHeightContainer();
+        this.updatePositionContainer(range);
         this.updateEmptyRow(body, dataList.length);
+
         this.renderData(this as any, body, range, dataList, onlyInsertOrRemove);
 
         this.updateTableWidth();
@@ -523,10 +523,10 @@ export class ViewGrid<
     }
 
     // обновляет контент у таблицы
+    // context - context
     // body - контейнер куда вставлять новые записи
     // range - диапазон "с" "по" записей которые нужно прорендерить
-    // currContent - контент, в котором хранится список записей, которые уже были прорендерены
-    // recordList - список record'ов которые нужно прорендерить
+    // dataList - список record'ов которые нужно прорендерить
     // onlyInsertOrRemove - простое обновление, игнорировать update row
     protected renderData(
         context: IContext<T>,
@@ -792,21 +792,33 @@ export class ViewGrid<
         }
     }
 
-    // обновляет высоту общего контейнера и отступ внутреннего
+    // обновляет высоту общего контейнера
     // если включена функция отображения видимой части таблицы
-    private updatePositionBuffer(range: IRange): void {
+    private updateHeightContainer(): void {
         let height: string = "";
-        let position: string = "";
 
         if (this.props.bufferEnable) {
             let rowHeight: number = this.props.bufferHeight;
             let countRows: number = this.dataList.length;
 
             height = `${rowHeight * countRows}px`;
-            position = `${range.start * rowHeight}px`;
         }
 
         this.css(ViewGrid.REFS.CONTAINER, { height });
+    }
+
+    // обновляет отступ внутреннего контейнера
+    // если включена функция отображения видимой части таблицы
+    private updatePositionContainer(range: IRange): void {
+        let position: string = "";
+
+        if (this.props.bufferEnable) {
+            let rowHeight: number = this.props.bufferHeight;
+            let countRows: number = this.dataList.length;
+
+            position = `${range.start * rowHeight}px`;
+        }
+
         this.css(ViewGrid.REFS.WRAP, { top: position });
     }
 
@@ -897,9 +909,16 @@ export class ViewGrid<
         let scrollTop: number = this.scrollTop;
         let rowHeight: number = this.props.bufferHeight;
         let countRows: number = this.dataList.length;
+        let height: number = this.height;
+
+        // huck
+        let maxScroll: number = rowHeight * countRows - height;
+        if (scrollTop > maxScroll) {
+            scrollTop = maxScroll;
+        }
 
         let start: number = Math.ceil(scrollTop / rowHeight);
-        let finish: number = Math.floor((scrollTop + this.height) / rowHeight);
+        let finish: number = Math.floor((scrollTop + height) / rowHeight);
 
         if (finish > countRows) {
             finish = countRows;
@@ -948,7 +967,7 @@ export class ViewGrid<
                     value = "&nbsp;";
                 }
             } catch (e) {
-                value = "";
+                value = "&nbsp;";
 
                 console.error(e);
             }
@@ -1016,8 +1035,6 @@ export class ViewGrid<
     }
 
     // --------------------------------------------------------
-    // приватные методы для работы с контентом таблицы
-
     // bind events
 
     @on(ViewGrid.REFS.CONTENT, "scroll")

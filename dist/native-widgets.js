@@ -177,8 +177,7 @@ var Component = /** @class */ (function () {
         for (var i = 1; i < ln; ++i) {
             args.push(arguments[i]);
         }
-        util_1.methodCall(this.$internal.emitter, "emit", args);
-        return true; // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return util_1.methodCall(this.$internal.emitter, "emit", args);
     };
     // >>> работа с виртуальным DOM
     // устанавливает свойства на DOM элемент
@@ -656,9 +655,12 @@ var EmitterEvent = /** @class */ (function () {
             var list = this.events[eventName];
             var ln = list.length;
             for (var i = 0; i < ln; ++i) {
-                util_1.methodCall(list, i, args);
+                if (util_1.methodCall(list, i, args) === false) {
+                    return false;
+                }
             }
         }
+        return true;
     };
     return EmitterEvent;
 }());
@@ -1070,10 +1072,10 @@ exports.uncamelize = uncamelize;
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = __webpack_require__(/*! ./widgets/grid/grid */ "./src/widgets/grid/grid.ts");
 var tree_1 = __webpack_require__(/*! ./widgets/tree/tree */ "./src/widgets/tree/tree.ts");
-var dragDropPlugin_1 = __webpack_require__(/*! ./widgets/grid/plugins/dragDrop/dragDropPlugin */ "./src/widgets/grid/plugins/dragDrop/dragDropPlugin.ts");
+var dragDropPlugin_1 = __webpack_require__(/*! ./widgets/grid/plugins/dragDrop/dragDropPlugin */ "./src/widgets/grid/plugins/dragDrop/dragDropPlugin.ts"); // не реализован !
 var resizeColumnsPlugin_1 = __webpack_require__(/*! ./widgets/grid/plugins/resizeColumns/resizeColumnsPlugin */ "./src/widgets/grid/plugins/resizeColumns/resizeColumnsPlugin.ts");
 var totalPlugin_1 = __webpack_require__(/*! ./widgets/grid/plugins/total/totalPlugin */ "./src/widgets/grid/plugins/total/totalPlugin.ts");
-var ViewColumnsPlugin_1 = __webpack_require__(/*! ./widgets/grid/plugins/viewColumns/ViewColumnsPlugin */ "./src/widgets/grid/plugins/viewColumns/ViewColumnsPlugin.ts");
+var ViewColumnsPlugin_1 = __webpack_require__(/*! ./widgets/grid/plugins/viewColumns/ViewColumnsPlugin */ "./src/widgets/grid/plugins/viewColumns/ViewColumnsPlugin.ts"); // не дописан !
 var treeFilterPlugin_1 = __webpack_require__(/*! ./widgets/tree/plugins/treeFilter/treeFilterPlugin */ "./src/widgets/tree/plugins/treeFilter/treeFilterPlugin.ts");
 var pinRowPlugin_1 = __webpack_require__(/*! ./widgets/tree/plugins/pinRow/pinRowPlugin */ "./src/widgets/tree/plugins/pinRow/pinRowPlugin.ts");
 __webpack_require__(/*! ./index.scss */ "./src/index.scss");
@@ -2866,6 +2868,9 @@ var SettingsGrid = /** @class */ (function (_super) {
         _super.prototype.beforeInit.call(this);
         this.props.bufferEnable = false;
         this.props.hideHead = true;
+        this.props.plugins = [{
+                type: "dragDropGrid"
+            }];
         this.props.columns = [{
                 width: 29,
                 dataIndex: "checkbox",
@@ -3291,8 +3296,8 @@ var ViewGrid = /** @class */ (function (_super) {
         var body = this.ref(ViewGrid_1.REFS.BODY);
         var range = this.findDisplayRange();
         var dataList = this.getRenderList(range);
-        // обновим позицию buffer зоны
-        this.updatePositionBuffer(range);
+        this.updateHeightContainer();
+        this.updatePositionContainer(range);
         this.updateEmptyRow(body, dataList.length);
         this.renderData(this, body, range, dataList, onlyInsertOrRemove);
         this.updateTableWidth();
@@ -3300,10 +3305,10 @@ var ViewGrid = /** @class */ (function (_super) {
         this.parent.emit("onRefresh", onlyInsertOrRemove);
     };
     // обновляет контент у таблицы
+    // context - context
     // body - контейнер куда вставлять новые записи
     // range - диапазон "с" "по" записей которые нужно прорендерить
-    // currContent - контент, в котором хранится список записей, которые уже были прорендерены
-    // recordList - список record'ов которые нужно прорендерить
+    // dataList - список record'ов которые нужно прорендерить
     // onlyInsertOrRemove - простое обновление, игнорировать update row
     ViewGrid.prototype.renderData = function (context, body, range, dataList, onlyInsertOrRemove) {
         var _this = this;
@@ -3516,18 +3521,26 @@ var ViewGrid = /** @class */ (function (_super) {
             }
         }
     };
-    // обновляет высоту общего контейнера и отступ внутреннего
+    // обновляет высоту общего контейнера
     // если включена функция отображения видимой части таблицы
-    ViewGrid.prototype.updatePositionBuffer = function (range) {
+    ViewGrid.prototype.updateHeightContainer = function () {
         var height = "";
-        var position = "";
         if (this.props.bufferEnable) {
             var rowHeight = this.props.bufferHeight;
             var countRows = this.dataList.length;
             height = rowHeight * countRows + "px";
-            position = range.start * rowHeight + "px";
         }
         this.css(ViewGrid_1.REFS.CONTAINER, { height: height });
+    };
+    // обновляет отступ внутреннего контейнера
+    // если включена функция отображения видимой части таблицы
+    ViewGrid.prototype.updatePositionContainer = function (range) {
+        var position = "";
+        if (this.props.bufferEnable) {
+            var rowHeight = this.props.bufferHeight;
+            var countRows = this.dataList.length;
+            position = range.start * rowHeight + "px";
+        }
         this.css(ViewGrid_1.REFS.WRAP, { top: position });
     };
     // обновляет показ\скрытие отступа в шапке таблице
@@ -3603,8 +3616,14 @@ var ViewGrid = /** @class */ (function (_super) {
         var scrollTop = this.scrollTop;
         var rowHeight = this.props.bufferHeight;
         var countRows = this.dataList.length;
+        var height = this.height;
+        // huck
+        var maxScroll = rowHeight * countRows - height;
+        if (scrollTop > maxScroll) {
+            scrollTop = maxScroll;
+        }
         var start = Math.ceil(scrollTop / rowHeight);
-        var finish = Math.floor((scrollTop + this.height) / rowHeight);
+        var finish = Math.floor((scrollTop + height) / rowHeight);
         if (finish > countRows) {
             finish = countRows;
         }
@@ -3646,7 +3665,7 @@ var ViewGrid = /** @class */ (function (_super) {
                 }
             }
             catch (e) {
-                value = "";
+                value = "&nbsp;";
                 console.error(e);
             }
             if (column.align) {
@@ -3702,7 +3721,6 @@ var ViewGrid = /** @class */ (function (_super) {
         });
     };
     // --------------------------------------------------------
-    // приватные методы для работы с контентом таблицы
     // bind events
     ViewGrid.prototype.onScroll = function () {
         var content = this.ref(ViewGrid_1.REFS.CONTENT);
@@ -4580,7 +4598,8 @@ var Tree = /** @class */ (function (_super) {
     function Tree() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Tree.prototype.setCheck = function (node, checked, params) {
+    // устанавливает check в узле
+    Tree.prototype.setCheck = function (node, checked) {
         if (this.props.syncCheckbox) {
             this.cascadeBefore(node, function (child) {
                 if (child.leaf) {
@@ -4593,24 +4612,17 @@ var Tree = /** @class */ (function (_super) {
             node.checked = checked;
         }
         this.refresh();
-        this.emit("checkchange", this, node, checked, params);
+        this.emit("checkchange", this, node, checked);
     };
+    // раскрывает узел
     Tree.prototype.expand = function (node) {
         node.expanded = true;
         this.refresh();
     };
+    // закрывает узел
     Tree.prototype.collapse = function (node) {
         node.expanded = false;
         this.refresh();
-    };
-    Tree.prototype.getChecked = function () {
-        var checked = [];
-        this.cascadeBefore([], function (node) {
-            if (node.data.checked) {
-                checked.push(node);
-            }
-        });
-        return checked;
     };
     // сначала вызывается fn узла, а потом его потомков
     Tree.prototype.cascadeBefore = function (node, fn) {
@@ -4680,8 +4692,8 @@ var Tree = /** @class */ (function (_super) {
     };
     // --------------------------------------------------------
     // приватные методы
+    // вызывается перед инициализацией
     Tree.prototype.beforeInit = function () {
-        _super.prototype.beforeInit.call(this);
         this.props.rootVisible = this.props.rootVisible !== false;
         this.props.syncCheckbox = !!this.props.syncCheckbox;
         // ------------------------------------------
@@ -4711,7 +4723,9 @@ var Tree = /** @class */ (function (_super) {
         }
         this.on("onCellMouseDown", cellMouseDown_Tree);
         this.on("onItemdblClick", itemDblClick_Tree);
+        _super.prototype.beforeInit.call(this);
     };
+    // находит наименование экшина по тегу
     Tree.prototype.findAction = function (node, root) {
         while (node && node !== root) {
             var action = node.getAttribute("action");
@@ -4722,11 +4736,13 @@ var Tree = /** @class */ (function (_super) {
         }
         return null;
     };
+    // создает заголовок дереваа
     Tree.prototype.initHead = function () {
         this.head = new headtree_1.HeadTree({
             columns: this.props.columns
         }, this);
     };
+    // создает контент дереваа
     Tree.prototype.initView = function () {
         this.view = new viewtree_1.ViewTree({
             data: this.props.data,
